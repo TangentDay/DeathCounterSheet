@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeathCounterSheet", "DeathCounterSS\DeathCounterSheet.csproj", "{0693E0F4-093A-4667-AC59-711F9FE8F63A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeathCounterSheet", "DeathCounterSheet\DeathCounterSheet.csproj", "{0693E0F4-093A-4667-AC59-711F9FE8F63A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
