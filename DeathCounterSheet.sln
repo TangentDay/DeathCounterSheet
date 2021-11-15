@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DeathCounterSheet", "DeathCounterSS\DeathCounterSheet.csproj", "{0693E0F4-093A-4667-AC59-711F9FE8F63A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0693E0F4-093A-4667-AC59-711F9FE8F63A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0693E0F4-093A-4667-AC59-711F9FE8F63A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0693E0F4-093A-4667-AC59-711F9FE8F63A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0693E0F4-093A-4667-AC59-711F9FE8F63A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7319EE82-CED2-4BCA-95C5-2E1C4665BBA1}
+	EndGlobalSection
+EndGlobal
