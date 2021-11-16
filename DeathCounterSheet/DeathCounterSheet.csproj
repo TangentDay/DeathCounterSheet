@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Google.Apis.Sheets.v4" Version="1.55.0.2371" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="Celeste">
       <HintPath>D:\SteamLibrary\steamapps\common\Celeste\Celeste.exe</HintPath>
       <CopyLocal>False</CopyLocal>
