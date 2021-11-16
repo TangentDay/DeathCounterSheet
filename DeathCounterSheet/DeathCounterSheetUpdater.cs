@@ -1,13 +1,5 @@
-﻿using Celeste.Mod.UI;
-using FMOD.Studio;
-using Microsoft.Xna.Framework;
-using Monocle;
-using Celeste;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.IO;
 
@@ -25,7 +17,6 @@ namespace Celeste.Mod.DeathCounterSheet
         static string ApplicationName = "DeathCounterSheet";
         static string SecretPath = Path.Combine("Mods", "DeathCounterSheet", "Code", "client_secret.json");
         static string SpreadsheetId = "1jxfCVubwmqMIpt77G9E86R3uRGYaWPGahqo-nAGA1n0";
-        static string SheetName = "Sheet1";
         static string RoomColumn = "B";
         static string DeathCountColumn = "E";
 
@@ -87,6 +78,5 @@ namespace Celeste.Mod.DeathCounterSheet
             update.ValueInputOption = SpreadsheetsResource.ValuesResource.UpdateRequest.ValueInputOptionEnum.USERENTERED;
             update.Execute();
         }
-
     }
 }
