@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace Celeste.Mod.Example
+namespace Celeste.Mod.DeathCounterSheet
 {
     public class DeathCounterSheet : EverestModule
     {
@@ -79,13 +79,8 @@ namespace Celeste.Mod.Example
 
             if (session.GrabbedGolden && ToUpdateSheet(session))
             {
-                UpdateSheet(session.Level);
+                DeathCounterSheetUpdater.Update(session.Level);
             }
-        }
-
-        private void UpdateSheet(string room)
-        {
-
         }
 
         private bool ToUpdateSheet(Session session)

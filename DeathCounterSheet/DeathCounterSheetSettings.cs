@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using YamlDotNet.Serialization;
 
-namespace Celeste.Mod.Example
+namespace Celeste.Mod.DeathCounterSheet
 {
     public class DeathCounterSheetSettings : EverestModuleSettings
     {
