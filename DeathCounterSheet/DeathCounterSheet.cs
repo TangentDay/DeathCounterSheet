@@ -56,13 +56,14 @@ namespace Celeste.Mod.DeathCounterSheet
 
             if (session.GrabbedGolden && ToUpdateSheet(session))
             {
-                DeathCounterSheetUpdater.Update(session.Level);
+                DeathCounterSheetUpdater.Update(
+                    session.Level, Settings.SpreadsheetId, Settings.RoomColumn, Settings.DeathCountColumn);
             }
         }
 
         private bool ToUpdateSheet(Session session)
         {
-            return GetChapterName(session) == "8B";
+            return GetChapterName(session) == Settings.TargetChapter;
         }
 
         private string GetChapterName(Session session)

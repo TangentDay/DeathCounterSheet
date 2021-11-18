@@ -15,13 +15,10 @@ namespace Celeste.Mod.DeathCounterSheet
     public class DeathCounterSheetUpdater
     {
         static string[] Scopes = { SheetsService.Scope.Spreadsheets };
-        static string ApplicationName = "DeathCounterSheet";
-        static string SecretPath = Path.Combine("Mods", "DeathCounterSheet", "Code", "client_secret.json");
-        static string SpreadsheetId = "1jxfCVubwmqMIpt77G9E86R3uRGYaWPGahqo-nAGA1n0";
-        static string RoomColumn = "B";
-        static string DeathCountColumn = "E";
+        static readonly string ApplicationName = "DeathCounterSheet";
+        static readonly string SecretPath = Path.Combine("Mods", "DeathCounterSheet", "Code", "client_secret.json");
 
-        public static void Update(string room)
+        public static void Update(string room, string spreadsheetId, string roomColumn, string deathCountColumn)
         {
             Task.Run(() =>
             {
@@ -46,9 +43,9 @@ namespace Celeste.Mod.DeathCounterSheet
                 });
 
                 // search room row
-                string range = $"{RoomColumn}1:{RoomColumn}";
+                string range = $"{roomColumn}1:{roomColumn}";
                 SpreadsheetsResource.ValuesResource.GetRequest request =
-                        service.Spreadsheets.Values.Get(SpreadsheetId, range);
+                        service.Spreadsheets.Values.Get(spreadsheetId, range);
                 ValueRange response = request.Execute();
                 IList<IList<Object>> values = response.Values;
                 if (values == null || values.Count == 0) return;
@@ -64,18 +61,20 @@ namespace Celeste.Mod.DeathCounterSheet
                 if (i == values.Count) return;
 
                 // get death count
-                string cell = $"{DeathCountColumn}{i + 1}";
-                request = service.Spreadsheets.Values.Get(SpreadsheetId, cell);
+                string cell = $"{deathCountColumn}{i + 1}";
+                request = service.Spreadsheets.Values.Get(spreadsheetId, cell);
                 response = request.Execute();
                 values = response.Values;
                 int cnt = Int32.Parse(values[0][0].ToString());
 
                 // update death count
-                ValueRange valueRange = new ValueRange();
-                valueRange.MajorDimension = "COLUMNS";
+                ValueRange valueRange = new ValueRange
+                {
+                    MajorDimension = "COLUMNS"
+                };
                 var oblist = new List<object>() { (cnt + 1).ToString() };
                 valueRange.Values = new List<IList<object>> { oblist };
-                SpreadsheetsResource.ValuesResource.UpdateRequest update = service.Spreadsheets.Values.Update(valueRange, SpreadsheetId, cell);
+                SpreadsheetsResource.ValuesResource.UpdateRequest update = service.Spreadsheets.Values.Update(valueRange, spreadsheetId, cell);
                 update.ValueInputOption = SpreadsheetsResource.ValuesResource.UpdateRequest.ValueInputOptionEnum.USERENTERED;
                 update.Execute();
             });
