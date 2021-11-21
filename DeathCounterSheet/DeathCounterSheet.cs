@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Collections.Generic;
 
 namespace Celeste.Mod.DeathCounterSheet
 {
@@ -50,14 +51,15 @@ namespace Celeste.Mod.DeathCounterSheet
             }
 
             Session session = level.Session;
+            string room = GetRoomCp(session);
             File.AppendAllText(filePath, $"Chapter: {GetChapterName(session)}{Environment.NewLine}");
-            File.AppendAllText(filePath, $"Room: {session.Level}{Environment.NewLine}");
+            File.AppendAllText(filePath, $"Room: {room}{Environment.NewLine}");
             File.AppendAllText(filePath, $"GrabGolden: {session.GrabbedGolden}{Environment.NewLine}");
 
             if (session.GrabbedGolden && ToUpdateSheet(session))
             {
                 DeathCounterSheetUpdater.Update(
-                    session.Level, Settings.SpreadsheetId, Settings.RoomColumn, Settings.DeathCountColumn);
+                    room, Settings.SpreadsheetId, Settings.RoomColumn, Settings.DeathCountColumn);
             }
         }
 
@@ -115,6 +117,33 @@ namespace Celeste.Mod.DeathCounterSheet
             }
 
             return levelName + " " + levelMode;
+        }
+
+        private string GetRoomCp(Session session)
+        {
+            HashSet<string> flags = session.Flags;
+
+            if (flags.Count == 0)
+            {
+                return session.Level;
+            }
+
+            if (GetChapterName(session) == "7B" && session.Level == "g-03")
+            {
+                return session.Level;
+            }
+
+            string prefix = "summit_checkpoint_";
+            int min = 20;
+            foreach (string flag in flags)
+            {
+                if (flag.StartsWith(prefix))
+                {
+                    string num = flag.Substring(prefix.Length);
+                    min = Math.Min(min, Int32.Parse(num));
+                }
+            }
+            return $"cp{min}";
         }
     }
 }
