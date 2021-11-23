@@ -4,6 +4,11 @@
     <TargetFramework>net452</TargetFramework>
   </PropertyGroup>
 
+  <ItemDefinitionGroup>
+    <PackageReference PrivateAssets="all" ExcludeAssets="runtime" />
+    <Reference Private="false" />
+  </ItemDefinitionGroup>
+
   <ItemGroup>
     <PackageReference Include="Google.Apis.Sheets.v4" Version="1.55.0.2371" />
   </ItemGroup>
@@ -11,74 +16,29 @@
   <ItemGroup>
     <Reference Include="Celeste">
       <HintPath>D:\SteamLibrary\steamapps\common\Celeste\Celeste.exe</HintPath>
-      <CopyLocal>False</CopyLocal>
-    </Reference>
-    <Reference Include="FNA">
-      <HintPath>D:\SteamLibrary\steamapps\common\Celeste\FNA.dll</HintPath>
-      <CopyLocal>False</CopyLocal>
     </Reference>
     <Reference Include="MMHOOK_Celeste">
       <HintPath>D:\SteamLibrary\steamapps\common\Celeste\MMHOOK_Celeste.dll</HintPath>
-      <CopyLocal>False</CopyLocal>
     </Reference>
     <Reference Include="YamlDotNet">
       <HintPath>D:\SteamLibrary\steamapps\common\Celeste\YamlDotNet.dll</HintPath>
-      <CopyLocal>False</CopyLocal>
     </Reference>
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Update="System">
-      <CopyLocal>False</CopyLocal>
-    </Reference>
-  </ItemGroup>
+  <Choose>
+    <When Condition="'$(OS)' != 'Windows_NT' Or Exists('..\..\FNA.dll')">
+      <ItemGroup>
+        <Reference Include="FNA" HintPath="..\..\FNA.dll" />
+      </ItemGroup>
+    </When>
 
-  <ItemGroup>
-    <Reference Update="System.Core">
-      <CopyLocal>False</CopyLocal>
-    </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Update="System.Data">
-      <CopyLocal>False</CopyLocal>
-    </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Update="System.Drawing">
-      <CopyLocal>False</CopyLocal>
-    </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Update="System.IO.Compression.FileSystem">
-      <CopyLocal>False</CopyLocal>
-    </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Update="System.Numerics">
-      <CopyLocal>False</CopyLocal>
-    </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Update="System.Runtime.Serialization">
-      <CopyLocal>False</CopyLocal>
-    </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Update="System.Xml">
-      <CopyLocal>False</CopyLocal>
-    </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Update="System.Xml.Linq">
-      <CopyLocal>False</CopyLocal>
-    </Reference>
-  </ItemGroup>
+    <Otherwise>
+      <ItemGroup>
+        <Reference Include="Microsoft.Xna.Framework" HintPath="$(WINDIR)\Microsoft.NET\assembly\GAC_32\Microsoft.Xna.Framework\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.dll" />
+        <Reference Include="Microsoft.Xna.Framework.Game" HintPath="$(WINDIR)\Microsoft.NET\assembly\GAC_32\Microsoft.Xna.Framework.Game\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Game.dll" />
+        <Reference Include="Microsoft.Xna.Framework.Graphics" HintPath="$(WINDIR)\Microsoft.NET\assembly\GAC_32\Microsoft.Xna.Framework.Graphics\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Graphics.dll" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
 
 </Project>
