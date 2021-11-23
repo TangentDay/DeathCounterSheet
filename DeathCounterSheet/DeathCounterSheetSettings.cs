@@ -15,5 +15,8 @@
 
         [SettingMaxLength(2)]
         public string DeathCountColumn { get; set; } = "B";
+
+        [SettingMaxLength(2)]
+        public string RoomCell { get; set; } = "";
     }
 }

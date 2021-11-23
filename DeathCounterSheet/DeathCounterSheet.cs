@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 
 namespace Celeste.Mod.DeathCounterSheet
 {
@@ -32,12 +33,22 @@ namespace Celeste.Mod.DeathCounterSheet
         {
             Everest.Events.Level.OnLoadLevel -= LevelOnLoad;
             Everest.Events.Player.OnDie -= PlayerOnDie;
-
         }
 
         private void LevelOnLoad(Level _level, Player.IntroTypes playerIntro, bool isFormLoader)
         {
             level = _level;
+
+            if (!Settings.Enabled && Settings.RoomCell == "") return;
+
+            Session session = level.Session;
+            if (ToUpdateSheet(session))
+            {
+                string room = GetRoomCp(session);
+                DeathCounterSheetUpdater.UpdateCell(
+                    Settings.RoomCell, room, Settings.SpreadsheetId);
+            }
+
         }
 
         private void PlayerOnDie(Player player)
@@ -58,7 +69,7 @@ namespace Celeste.Mod.DeathCounterSheet
 
             if (session.GrabbedGolden && ToUpdateSheet(session))
             {
-                DeathCounterSheetUpdater.Update(
+                DeathCounterSheetUpdater.IncrementDeathCount(
                     room, Settings.SpreadsheetId, Settings.RoomColumn, Settings.DeathCountColumn);
             }
         }
@@ -133,17 +144,17 @@ namespace Celeste.Mod.DeathCounterSheet
                 return session.Level;
             }
 
-            string prefix = "summit_checkpoint_";
-            int min = 20;
+            string PREFIX = "summit_checkpoint_";
+            int INF = 100, min = INF;
             foreach (string flag in flags)
             {
-                if (flag.StartsWith(prefix))
+                if (flag.StartsWith(PREFIX))
                 {
-                    string num = flag.Substring(prefix.Length);
+                    string num = flag.Substring(PREFIX.Length);
                     min = Math.Min(min, Int32.Parse(num));
                 }
             }
-            return $"cp{min}";
+            return min == INF ? session.Level : $"cp{min}";
         }
     }
 }

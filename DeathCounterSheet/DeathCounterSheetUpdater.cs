@@ -18,7 +18,7 @@ namespace Celeste.Mod.DeathCounterSheet
         static readonly string ApplicationName = "DeathCounterSheet";
         static readonly string SecretPath = Path.Combine("Mods", "DeathCounterSheet", "Code", "client_secret.json");
 
-        public static void Update(string room, string spreadsheetId, string roomColumn, string deathCountColumn)
+        public static void IncrementDeathCount(string room, string spreadsheetId, string roomColumn, string deathCountColumn)
         {
             Task.Run(() =>
             {
@@ -73,6 +73,42 @@ namespace Celeste.Mod.DeathCounterSheet
                     MajorDimension = "COLUMNS"
                 };
                 var oblist = new List<object>() { (cnt + 1).ToString() };
+                valueRange.Values = new List<IList<object>> { oblist };
+                SpreadsheetsResource.ValuesResource.UpdateRequest update = service.Spreadsheets.Values.Update(valueRange, spreadsheetId, cell);
+                update.ValueInputOption = SpreadsheetsResource.ValuesResource.UpdateRequest.ValueInputOptionEnum.USERENTERED;
+                update.Execute();
+            });
+        }
+
+        public static void UpdateCell(string cell, string text, string spreadsheetId)
+        {
+            Task.Run(() =>
+            {
+                UserCredential credential;
+                using (var stream = new FileStream(SecretPath, FileMode.Open, FileAccess.Read))
+                {
+                    string credPath = "token.json";
+
+                    credential = GoogleWebAuthorizationBroker.AuthorizeAsync(
+                        GoogleClientSecrets.Load(stream).Secrets,
+                        Scopes,
+                        "user",
+                        CancellationToken.None,
+                        new FileDataStore(credPath, true)
+                    ).Result;
+                }
+
+                var service = new SheetsService(new BaseClientService.Initializer()
+                {
+                    HttpClientInitializer = credential,
+                    ApplicationName = ApplicationName,
+                });
+
+                ValueRange valueRange = new ValueRange
+                {
+                    MajorDimension = "COLUMNS"
+                };
+                var oblist = new List<object>() { text };
                 valueRange.Values = new List<IList<object>> { oblist };
                 SpreadsheetsResource.ValuesResource.UpdateRequest update = service.Spreadsheets.Values.Update(valueRange, spreadsheetId, cell);
                 update.ValueInputOption = SpreadsheetsResource.ValuesResource.UpdateRequest.ValueInputOptionEnum.USERENTERED;
